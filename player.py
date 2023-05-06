@@ -1,14 +1,14 @@
 import pygame
+import os
 from config import width, height
 
 
 class Player(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
-        self.image = pygame.Surface((64, 64), pygame.SRCALPHA)
-        self.color = (0, 255, 0)
-        self.points = [(32, 0), (0, 60), (64, 60)]
-        pygame.draw.polygon(self.image, self.color, self.points)
+        player_image_path = os.path.join(os.path.dirname(__file__), 'level1_starship.png')
+        self.image = pygame.image.load(player_image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (128, 128))  # Scale the image to the desired size
         self.rect = self.image.get_rect()
         self.rect.centerx = width // 2
         self.rect.bottom = height - 20

@@ -3,12 +3,18 @@ import pygame
 from config import width, height
 from utils import spawn_new_pos
 from player import Player
+import os
 
 
 class Enemy(pygame.sprite.Sprite):
    
     def __init__(self, current_level, player):
         super().__init__()
+        enemy_image_path = os.path.join(os.path.dirname(__file__), 'L1_evil.png')
+        self.image = pygame.image.load(enemy_image_path).convert_alpha()
+        self.image = pygame.transform.scale(self.image, (128, 128))  # Scale the image to the desired size
+        self.rect = self.image.get_rect()
+        self.player =player
 
         enemy_hp = {
         1: {"hp": 3, "kill_count": 1},
@@ -20,11 +26,7 @@ class Enemy(pygame.sprite.Sprite):
         # Add more levels as needed
         }
 
-        self.image = pygame.Surface((64, 64), pygame.SRCALPHA)
-        self.color = (255, 0, 0)
-        self.points = [(32, 60), (0, 0), (64, 0)]
-        pygame.draw.polygon(self.image, self.color, self.points)
-        self.rect = self.image.get_rect()
+
         self.rect.x = random.randrange(width - self.rect.width)
         self.rect.y = random.randrange(-100, -40)
         self.speedy = random.randrange(1, 4)
